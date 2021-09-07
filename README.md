@@ -1,7 +1,9 @@
 # SysInfo
 
 Simple, single class wrapper to get device information from an android device.
+
 ![](static/sysinfo.png)
+
 This library provides an easy way to access all the device information without having to deal with all the boilerplate stuff going on inside.
 
 
@@ -291,6 +293,6 @@ permissionManager.showPermissionDialog(permission)
 | Flag to cancel the dialog    | ```isDialogCancellable()``` | boolean |
 
 
-<h2>Created and maintained by:</h2>
-<p>Klejvi Kapaj  kl3jvi@protnonmail.com</p>
-<p><a href="https://twitter.com/kl3jvi">
+Author
+------
+Klejvi Kapaj - @kl3jvi on GitHub, @kl3jvi on Twitter
