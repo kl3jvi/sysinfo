@@ -2,7 +2,7 @@
 
 Simple, single class wrapper to get device information from an android device.
 
-![](static/sysinfo.png)
+![](static/sysinfo_banner.png)
 
 This library provides an easy way to access all the device information without having to deal with all the boilerplate stuff going on inside.
 
