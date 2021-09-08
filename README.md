@@ -58,8 +58,8 @@ For easy use, I have split up all the device information by the following:</br>
 <h2>Location</h2>
 
 ```
-LocationInfo locationInfo = new LocationInfo(this);
-DeviceLocation location = locationInfo.getLocation();
+val locationInfo = LocationInfo(this)
+val location: DeviceLocation = locationInfo.location
 ```
 
 | Value         | Function Name | Returns  |
@@ -77,14 +77,16 @@ DeviceLocation location = locationInfo.getLocation();
 No Google play services needed!
 
 ```
-AdInfo adInfo = new AdInfo(this);
-adInfo.getAndroidAdId(new new AdInfo.AdIdCallback() {
-                         @Override
-                         public void onResponse(Ad ad) {
-                             String advertisingId = ad.getAdvertisingId();
-                             Boolean canTrackAds = ad.isAdDoNotTrack();
-                         }
-                     });
+ val ad = AdInfo(this)
+        ad.getAndroidAdId(object:AdInfo.AdIdCallback{
+            override fun onResponse(context: Context, ad: Ad) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(context: Context, message: String) {
+                TODO("Not yet implemented")
+            }
+        })
 ```
 
 | Value         | Function Name | Returns  |
@@ -96,7 +98,7 @@ adInfo.getAndroidAdId(new new AdInfo.AdIdCallback() {
 <h2>App</h2>
 
 ```
-App app = new App(this);
+val app = App(this)
 ```
 
 | Value         | Function Name | Returns  |
@@ -111,7 +113,7 @@ App app = new App(this);
 <h2>Battery</h2>
 
 ```
-Battery battery = new Battery(this);
+val battery = Battery(this)
 ```
 
 | Value         | Function Name | Returns  |
@@ -129,7 +131,7 @@ Battery battery = new Battery(this);
 <h2>Device</h2>
 
 ```
-Device device = new Device(this);
+val device = Device(this)
 ```
 
 | Value         | Function Name | Returns  |
@@ -161,7 +163,7 @@ Device device = new Device(this);
 <h2>Memory</h2>
 
 ```
-Memory memory = new Memory(this);
+val memory = Memory(this)
 ```
 
 | Value         | Function Name | Returns  |
@@ -177,7 +179,7 @@ Memory memory = new Memory(this);
 <h2>Network</h2>
 
 ```
-Network network = new Network(this);
+val network = Network(this)
 ```
 
 | Value         | Function Name | Returns  |
@@ -200,8 +202,8 @@ Network network = new Network(this);
 <h2>User Installed Apps</h2>
 
 ```
-UserAppInfo userAppInfo = new UserAppInfo(this);
-List<UserApps> userApps = userAppInfo.getInstalledApps(boolean includeSystemApps);
+val userAppInfo = UserAppInfo(this)
+val userApps:List<UserApps>  = userAppInfo.getInstalledApps(true);
 ```
 
 | Value         | Function Name | Returns  |
@@ -215,8 +217,8 @@ List<UserApps> userApps = userAppInfo.getInstalledApps(boolean includeSystemApps
 <h2>User Contacts</h2>
 
 ```
-UserContactInfo userContactInfo = new UserContactInfo(mActivity);
-List<UserContacts> userContacts = userContactInfo.getContacts();
+val userContactInfo = UserContactInfo(this)
+val userContacts = userContactInfo.contacts
 ```
 
 | Value         | Function Name | Returns  |
@@ -231,10 +233,14 @@ Easy! I have provided a small, easy wrapper for getting permissions for marshmel
 
 First, override onRequestPermissionsResult and call PermissionManager.handleResult(requestCode, permissions, grantResults);
 ```
-PermissionManager permissionManager = new PermissionManager(this);
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+private val permissionManager = PermissionManager(this)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         permissionManager.handleResult(requestCode, permissions, grantResults);
     }
 ```
@@ -242,41 +248,40 @@ PermissionManager permissionManager = new PermissionManager(this);
 Now you can ask permission:
 ```
 permissionManager.showPermissionDialog(permission)
-                    .withDenyDialogEnabled(true)
-                    .withDenyDialogMsg(mActivity.getString(R.string.permission_location))
-                    .withCallback(new PermissionManager.PermissionCallback() {
-                        @Override
-                        public void onPermissionGranted(String[] permissions, int[] grantResults) {
-                            //you can handle what to do when permission is granted
-                        }
+            .withDenyDialogEnabled(true)
+            .withDenyDialogMsg(mActivity.getString(R.string.permission_location))
+            .withCallback(object : PermissionCallback {
+                override fun onPermissionGranted(
+                    permissions: Array<String>,
+                    grantResults: IntArray
+                ) {
+                    //you can handle what to do when permission is granted
+                }
 
-                        @Override
-                        public void onPermissionDismissed(String permission) {
-                           /**
-                             * user has denied the permission. We can display a custom dialog 
-                             * to user asking for permission
-                           * */
-                        }
+                override fun onPermissionDismissed(permission: String) {
+                    /**
+                     * user has denied the permission. We can display a custom dialog
+                     * to user asking for permission
+                     */
+                }
 
-                        @Override
-                        public void onPositiveButtonClicked(DialogInterface dialog, int which) {
-                          /**
-                            * You can choose to open the
-                            * app settings screen
-                            * * */
-                              PermissionUtils permissionUtils = new PermissionUtils(this);
-                              permissionUtils.openAppSettings();
-                        }
+                override fun onPositiveButtonClicked(dialog: DialogInterface, which: Int) {
+                    /**
+                     * You can choose to open the
+                     * app settings screen
+                     * *  */
+                    val permissionUtils = PermissionUtils(this)
+                    permissionUtils.openAppSettings()
+                }
 
-                        @Override
-                        public void onNegativeButtonClicked(DialogInterface dialog, int which) {
-                          /**
-                            * The user has denied the permission!
-                            * You need to handle this in your code
-                            * * */
-                        }
-                    })
-                    .build();
+                override fun onNegativeButtonClicked(dialog: DialogInterface, which: Int) {
+                    /**
+                     * The user has denied the permission!
+                     * You need to handle this in your code
+                     * *  */
+                }
+            })
+            .build()
 ```
 
 <h3>Various options available in PermissionManager</h3>
