@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kl3jvi.sysinfo.ads.Ad
 import com.kl3jvi.sysinfo.ads.AdInfo
+import com.kl3jvi.sysinfo.location.LocationInfo
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,17 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val textV = findViewById<TextView>(R.id.tv)
         val ad = AdInfo(this)
-        ad.getAndroidAdId(object : AdInfo.AdIdCallback {
-            override fun onResponse(context: Context, ad: Ad) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onError(context: Context, message: String) {
-                TODO("Not yet implemented")
-            }
-        })
+        val location = LocationInfo(this)
+        textV.text = location.location.postalCode
 
     }
-
-
 }
