@@ -15,7 +15,7 @@ Library also provides option to ask permissions for Marshmellow devices!
 
 ```gradle
 dependencies {
-        implementation 'com.an.deviceinfo:deviceinfo:0.1.5'
+    implementation 'com.github.kl3jvi:sysinfo:1.0.0'
 }
 ```
 
